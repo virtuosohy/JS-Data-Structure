@@ -1,5 +1,3 @@
-# JS-Data-Structure
-
 # 一.数组
 
 **数据类型分类**
@@ -7,7 +5,7 @@
 - `number` / `string` / `boolean` / `undefined` / `null` / `object` / `function`  /  `array` / ...
 - 数组也是数据类型中的一种
 - 我们简单的把所有数据类型分为两个大类 **基本数据类型** 和 **复杂数据类型**
-- 基本数据类型： `number` / `string` / `boolean` / `undefined` / `null` 
+- 基本数据类型： `number` / `string` / `boolean` / `undefined` / `null`
 - 复杂数据类型： `object` / `function`  /  `array` / ...
 
 
@@ -261,7 +259,7 @@ console.log(index) // 2
 ````
 
 - - 我们要找的是数组中值为 3 的那一项
-  - 返回的就是值为 3 的那一项在该数组中的索引
+- 返回的就是值为 3 的那一项在该数组中的索引
 - 如果你要找的内容在数组中没有，那么就会返回 -1
 
 ```js
@@ -321,7 +319,7 @@ arr.forEach(function (item, index, arr) {
 
 
 
-**数组常用方法之 map** 
+**数组常用方法之 map**
 
 - 和 `forEach` 类似，只不过可以对数组中的每一项进行操作，返回一个新的数组
 
@@ -497,7 +495,7 @@ function convert(decNumber,base){
 
 > 队列是一种特殊的线性表，特殊之处在于它只允许在表的前端（front）进行删除操作，而在表的后端（rear）进行插入操作，和栈一样，队列是一种操作受限制的线性表。进行插入操作的端称为队尾，进行删除操作的端称为队头。队列中没有元素时，称为空队列。
 
-队列的数据元素又称为队列元素。在队列中插入一个队列元素称为入队，从队列中删除一个队列元素称为出队。因为队列只允许在一端插入，在另一端删除，所以只有最早进入队列的元素才能最先从队列中删除，故队列又称为先进先出（FIFO—first in first out）线性表。 
+队列的数据元素又称为队列元素。在队列中插入一个队列元素称为入队，从队列中删除一个队列元素称为出队。因为队列只允许在一端插入，在另一端删除，所以只有最早进入队列的元素才能最先从队列中删除，故队列又称为先进先出（FIFO—first in first out）线性表。
 
 
 
@@ -509,6 +507,7 @@ class Queue {
     #count = 0
     #lowCount = 0
 
+    //出队  在队列的开头移除某个元素，并且返回
     dequeue() {
         if(this.isEmpty()){
             return undefined
@@ -520,6 +519,7 @@ class Queue {
         //想删除第一个值(lowcount) 删除后索引+1 跳到第二个值
     }
 
+   //入队   在队列末尾加入元素
     enqueue(data) {
         this.#items[this.#count] = data
         this.#count++
@@ -551,6 +551,93 @@ class Queue {
             }
         return str
     }
+```
+
+##### 3.队列的应用-击鼓传花
+
+> 思路：将队首的人在计数过后传到队尾，出栈时只出队首的数
+
+
+
+```js
+function game(list,num){
+    let queue = new Queue()//生成新队列
+    for(let i=0;i<list.length;i++){
+        queue.enqueue(list[i]) //把每一项加入队列
+    }
+
+    while(queue.size()>1){
+        for(let i=0;i<num;i++){
+            queue.enqueue(queue.dequeue()) //先出栈，然后放入队尾
+        }
+        console.log(queue.dequeue(),"淘汰了")
+    }
+
+    return {
+        winner:queue.dequeue()
+    }
+}
+
+game(["kerwin","tiechui","xiaoming","gangdaner","guludunzi"],7)
+```
+
+
+
+
+
+# 四.链表
+
+> 链表是一种物理存储单元上非连续、非顺序的存储结构，数据元素的逻辑顺序是通过链表中的指针链接次序实现的。链表由一系列结点（链表中每一个元素称为结点）组成，结点可以在运行时动态生成。每个结点包括两个部分：一个是存储数据元素的数据域，另一个是存储下一个结点地址的指针域。
+>
+> 使用链表结构可以克服数组链表需要预先知道数据大小的缺点，链表结构可以充分利用计算机内存空间，实现灵活的内存动态管理。但是链表失去了数组随机读取的优点，同时链表由于增加了结点的指针域，空间开销比较大。
+
+
+
+**链表的特点**
+
+1.插入、删除数据效率高O(1)级别（只需更改指针指向即可），随机访问效率低O(n)级别（需要从链头至链尾进行遍历）。
+2.和数组相比，内存空间消耗更大，因为每个存储数据的节点都需要额外的空间存储后继指针。
+
+
+
+##### 1. 单链表
+
+> 每个节点只包含一个指针，即后继指针。
+
+```
+
+```
+
+
+
+
+
+***
+
+
+
+# 十. 排序算法
+
+##### 1.冒泡排序
+
+> 冒泡排序比较所有相邻的两个项，如果第一个比第二个大，则交换它们。元素项向上移动至 正确的顺序，就好像气泡升至表面一样，冒泡排序因此得名。
+
+```js
+function bubbleSort(array) {
+    const {length} = array;    //解构赋值，将array.length赋值给array
+    for (let i = 0; i < length; i++) {
+        for (let j = 0; j < length - 1; j++) {
+            if (array[j] > array[j + 1]) {
+                 [array[j],array[j+1]]   =  [array[j+1],array[j]]  
+            }
+        }
+    }
+   console.log(array);
+   
+}
+
+
+bubbleSort([5,3,2,4,1,6])
 ```
 
 
